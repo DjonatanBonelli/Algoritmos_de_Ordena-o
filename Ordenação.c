@@ -1,5 +1,5 @@
-/**
- * @file OrdenaÁ„o.c
+/*
+ * @file Ordena√ß√£o.c
  * @author Djonatan Riquelme Clein Bonelli
  * @version 0.3
  * @date 2023-03-30
@@ -7,36 +7,37 @@
  * @copyright Copyright (c) 2023
  *
  *
- * @brief Arquivo template para trabalho de Pesquisa e OrdenaÁ„o.
+ * @brief Arquivo template para trabalho de Pesquisa e Ordena√ß√£o.
  *
- *      Cada estudante deve implementar as funÁıes conforme as assinaturas
- * abaixo e realizar as impressıes dos vetores apÛs a ordenaÁ„o. Desta forma,
- * o(a) estudante deve implementar o trecho de cÛdigo para impress„o dos vetores
- * ordenados dentro da funÁ„o `main` conforme o exemplo do Bubble Sort abaixo.
+ *      Cada estudante deve implementar as fun√ß√µes conforme as assinaturas
+ * abaixo e realizar as impress√µes dos vetores ap√≥s a ordena√ß√£o. Desta forma,
+ * o(a) estudante deve implementar o trecho de c√≥digo para impress√£o dos vetores
+ * ordenados dentro da fun√ß√£o `main` conforme o exemplo do Bubble Sort abaixo.
  *
- * Se necess·rio, declare e implemente funÁıes auxiliares para realizar as
- * ordenaÁıes.
+ * Se necess√°rio, declare e implemente fun√ß√µes auxiliares para realizar as
+ * ordena√ß√µes.
  *
- * Importante:N„o altere as assinaturas dos mÈtodos de ordenaÁ„o!
+ * Importante:N√£o altere as assinaturas dos m√©todos de ordena√ß√£o!
  *
- * Caso o vetor n„o possa ser ordenado por algum mÈtodo, imprima uma mensagem de
+ * Caso o vetor n√£o possa ser ordenado por algum m√©todo, imprima uma mensagem de
  * aviso e o vetor original.
  *
- * AtenÁ„o: Antes de entregar, conferir se dos dados de documentaÁ„o no inÌcio
- * do arquivo est„o preenchidos corretamente.
+ * Aten√ß√£o: Antes de entregar, conferir se dos dados de documenta√ß√£o no in√≠cio
+ * do arquivo est√£o preenchidos corretamente.
  *
  */
 #include <stdio.h>
 
+void troca(int *a, int *b);
 void copia(int *A, int *v, int size);
 void bubbleSort(int *A, int size);
-// void selectionSort(int *A, int size);
-// void insertionSort(int *A, int size);
-// void mergeSort(int *A, int size);
-// void quickSort(int *A, int size);
-// void heapSort(int *A, int size);
-// void countingSort(int *A, int size);
-// void radixSort(int *A, int size);
+void selectionSort(int *A, int size);
+void insertionSort(int *A, int size);
+void mergeSort(int *A, int size);
+void quickSort(int *A, int size);
+void heapSort(int *A, int size);
+void countingSort(int *A, int size);
+void radixSort(int *A, int size);
 
 
 int main(){
@@ -56,7 +57,7 @@ int main(){
     copia(vetor, bubbleVec, tamanhoVetor);
     bubbleSort(bubbleVec, tamanhoVetor);
     printf("\nBubble sort: ");
-    for (i = 0 ; i < tamanhoVetor ; i++)
+    for (i = 0 ; i < tamanhoVetor; i++)
         printf("%d ", bubbleVec[i]);
     printf("\n");
 
@@ -90,7 +91,7 @@ int main(){
     // quick sort
     int quickVec[tamanhoVetor];
     copia(vetor, quickVec, tamanhoVetor);
-    quickSort(quickVec, 0, tamanhoVetor);
+    quickSort(quickVec, tamanhoVetor-1);
     printf("\nQuick sort: ");
     for (i = 0; i < tamanhoVetor; i++)
         printf("%d ", quickVec[i]);
@@ -108,7 +109,7 @@ int main(){
     // counting sort
     int countingVec[tamanhoVetor];
     copia(vetor, countingVec, tamanhoVetor);
-    countingSort(countingVec, tamanhoVetor, 0);
+    countingSort(countingVec, tamanhoVetor);
     printf("\nCounting sort: ");
     for (i = 0; i < tamanhoVetor; i++)
         printf("%d ", countingVec[i]);
@@ -124,6 +125,12 @@ int main(){
     printf("\n");
 
     return 0;
+}
+
+void troca(int* a, int* b) {
+    int aux = *a;
+    *a = *b;
+    *b = aux;
 }
 
 void copia(int *A, int *V, int size){
@@ -178,6 +185,24 @@ void merge(int *A, int *left, int left_size, int *right, int right_size) {
     }
 }
 
+void quick(int *A, int k, int size){
+    if (k < size) {
+        int aux = particao(A, k, size);
+        quick(A, k, aux - 1);
+        quick(A, aux + 1, size);
+    }
+}
+
+int buscaMaior(int *A, int size){
+    int k = A[0];   //maior indice
+    for (int i = 0; i < size; i++)
+        if (A[i]<A[i+1])
+        {
+            k = A[i+1];
+        }
+        return k;
+}
+
 int getMax(int arr[], int n) {
     int max = arr[0];
     for (int i = 1; i < n; i++) {
@@ -188,12 +213,12 @@ int getMax(int arr[], int n) {
     return max;
 }
 
-// Realiza a ordenaÁ„o do array com base no dÌgito especificado pelo exp
+// Realiza a ordena√ß√£o do array com base no d√≠gito especificado pelo exp
 void countSort(int *A, int size, int exp) {
     int output[size];
     int count[10] = {0};
 
-    // Contagem da ocorrÍncia de cada dÌgito
+    // Contagem da ocorr√™ncia de cada d√≠gito
     for (int i = 0; i < size; i++) {
         count[(A[i]/exp)%10]++;
     }
@@ -203,7 +228,7 @@ void countSort(int *A, int size, int exp) {
         count[i] += count[i-1];
     }
 
-    // Coloca os elementos em output de acordo com a posiÁ„o do dÌgito
+    // Coloca os elementos em output de acordo com a posi√ß√£o do d√≠gito
     for (int i = size-1; i >= 0; i--) {
         output[count[(A[i]/exp)%10]-1] = A[i];
         count[(A[i]/exp)%10]--;
@@ -215,20 +240,17 @@ void countSort(int *A, int size, int exp) {
     }
 }
 
-void troca(int* a, int* b) {
-    int aux = *a;
-    *a = *b;
-    *b = aux;
-}
 
 void bubbleSort(int *A, int size){
-    int aux, houve_troca, i;
+    int aux, houve_troca, i, j;
 
-    for(i = size-1; i != 0; i--){
+    for(i = 0; i < size-1; i++){
         houve_troca = 0;
-        for(int j = 0; j-i-1; j++){
+        for(j = 0; j < size-i-1; j++){
             if(A[j] > A[j+1]){
-               troca(&A[i], &A[j]);
+               aux = A[j];
+               A[j] = A[j+1];
+               A[j+1] = aux;
                houve_troca += 1; 
             }
         }
@@ -285,14 +307,10 @@ void mergeSort(int *A, int size) {
     }
 }
 
+void quickSort(int *A, int size){
+    quick(A, 0, size);
+}
 
-void quickSort(int *A, int k, int size){
-     if (0 < size) {
-        int aux = particao(A, 0, size);
-        quickSort(A, 0, aux - 1);
-        quickSort(A, aux + 1, size);
-}
-}
 
 void heapSort(int *A, int size) {
     for (int i = size / 2 - 1; i >= 0; i--) {
@@ -304,7 +322,8 @@ void heapSort(int *A, int size) {
     }
 }
 
-void countingSort(int *A, int size, int k) {
+void countingSort(int *A, int size) {
+    int k = buscaMaior(A, size);
     int count[k+1];
     for (int i = 0; i <= k; i++) {
         count[i] = 0;
@@ -331,5 +350,4 @@ void radixSort(int *A, int size) {
         countSort(A, size, exp);
     }
 }
-
 

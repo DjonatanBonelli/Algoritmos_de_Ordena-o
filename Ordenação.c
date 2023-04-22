@@ -41,7 +41,7 @@ void radixSort(int *A, int size);
 
 
 int main(){
-
+    int flag = 0;
     int i;
     int vetor[] = {1, 22, -10, 38, 5, 7};
     int tamanhoVetor = (int)sizeof(vetor)/sizeof(int);
@@ -107,22 +107,61 @@ int main(){
     printf("\n");
 
     // counting sort
-    int countingVec[tamanhoVetor];
-    copia(vetor, countingVec, tamanhoVetor);
-    countingSort(countingVec, tamanhoVetor);
-    printf("\nCounting sort: ");
-    for (i = 0; i < tamanhoVetor; i++)
-        printf("%d ", countingVec[i]);
-    printf("\n");
+        int countingVec[tamanhoVetor];
+        copia(vetor, countingVec, tamanhoVetor);
+        
+        for(int i = 0; i != tamanhoVetor; i++){
+        
+        if(vetor[i] < 0){ //verifica a validade do vetor
+            flag += 1;
+        }
+    }
+
+        if(flag == 0){ //chama a funcao se o vetor for valido
+
+            countingSort(countingVec, tamanhoVetor);
+            printf("\nCounting sort: ");
+            for (i = 0; i < tamanhoVetor; i++)
+                printf("%d ", countingVec[i]);
+            printf("\n");
+        }
+
+        if(flag != 0){ //se o vetor for invalido
+            printf("\nIndice negativo. Vetor invalido para counting sort!\n");
+                printf("\nVetor original: ");
+                for (i = 0 ; i < tamanhoVetor ; i++)
+                    printf("%d ", vetor[i]);
+        }
+        printf("\n");
+
+    flag = 0;
 
     // radix sort
     int radixVec[tamanhoVetor];
     copia(vetor, radixVec, tamanhoVetor);
-    radixSort(radixVec, tamanhoVetor);
-    printf("\nRadix sort: ");
-    for (i = 0; i < tamanhoVetor; i++)
-        printf("%d ", radixVec[i]);
-    printf("\n");
+        for(int i = 0; i < tamanhoVetor; i++){
+
+        if(vetor[i] < 0){ //verifica a validade do vetor
+            flag += 1;          
+        }
+    }   
+        if(flag == 0) { //chama a funcao se o vetor for valido
+
+            radixSort(radixVec, tamanhoVetor);
+            printf("\nRadix sort: ");
+            for (i = 0; i < tamanhoVetor; i++)
+                printf("%d ", radixVec[i]);
+            printf("\n");
+
+        }
+        if(flag != 0){ //se o vetor for invalido
+            printf("\nIndice negativo. Vetor invalido para radix sort!\n");
+            printf("\nVetor original: ");
+            for (i = 0 ; i < tamanhoVetor ; i++)
+                printf("%d ", vetor[i]);
+        }
+            printf("\n");
+    flag = 0;
 
     return 0;
 }
@@ -350,4 +389,3 @@ void radixSort(int *A, int size) {
         countSort(A, size, exp);
     }
 }
-
